@@ -5,7 +5,6 @@ import Testimonials from "./components/home/Testimonials";
 import FeaturedBlogPosts from "./components/home/FeaturedBlogPosts";
 import FAQPreview from "./components/home/FAQPreview";
 import CallToAction from "./components/home/CallToAction";
-import Footer from "./components/footer/Footer";
 
 export default function Home() {
   return (
@@ -17,7 +16,6 @@ export default function Home() {
       <FeaturedBlogPosts />
       <FAQPreview />
       <CallToAction />
-      <Footer />
     </>
   );
 }

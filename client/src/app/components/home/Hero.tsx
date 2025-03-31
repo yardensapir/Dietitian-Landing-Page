@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Calendar, ArrowLeftCircle } from 'lucide-react';
 import Image from 'next/image';
 import yafitImage from '../../../../public/assets/Yafit.png';
+import Link from 'next/link';
 
 const Hero = () => {
   return (
@@ -55,18 +56,18 @@ const Hero = () => {
               transition={{ delay: 0.6, duration: 0.8 }}
               className="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-4"
             >
-              <button 
+              <Link href={"/contact"}
                 className="group flex items-center justify-center gap-2 w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-teal-600 text-white text-base sm:text-lg font-medium rounded-full hover:bg-teal-700 transition-all duration-300 hover:shadow-lg"
               >
                 <Calendar className="w-5 h-5" />
                 <span>קביעת פגישת ייעוץ</span>
                 <ArrowLeftCircle className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-4 group-hover:translate-x-0" />
-              </button>
-              <button 
+              </Link>
+              <Link href={"/about"}
                 className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white text-teal-600 text-base sm:text-lg font-medium rounded-full border-2 border-teal-600 hover:bg-teal-50 transition-all duration-300"
               >
                 למידע נוסף
-              </button>
+              </Link>
             </motion.div>
           </motion.div>
 

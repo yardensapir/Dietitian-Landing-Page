@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion } from "framer-motion";
 import { Apple, Dumbbell, Heart, Leaf } from 'lucide-react';
+import Link from 'next/link';
 import Card from '../card/Card';
 
 const Benefits = () => {
@@ -16,22 +17,26 @@ const Benefits = () => {
     {
       Icon: Apple,
       title: "ירידה במשקל",
-      description: "תוכנית תזונה מותאמת אישית לירידה במשקל בריאה ומאוזנת"
+      description: "תוכנית תזונה מותאמת אישית לירידה במשקל בריאה ומאוזנת",
+      slug: "weight-loss"
     },
     {
       Icon: Dumbbell,
       title: "תזונת ספורט",
-      description: "תזונה מותאמת לספורטאים להשגת ביצועים מיטביים ושיפור היכולות"
+      description: "תזונה מותאמת לספורטאים להשגת ביצועים מיטביים ושיפור היכולות",
+      slug: "sports-nutrition"
     },
     {
       Icon: Heart,
       title: "טיפול באכילה רגשית",
-      description: "פיתוח מערכת יחסים בריאה עם אוכל ורגשות בליווי מקצועי"
+      description: "פיתוח מערכת יחסים בריאה עם אוכל ורגשות בליווי מקצועי",
+      slug: "emotional-eating"
     },
     {
       Icon: Leaf,
       title: "תזונה צמחונית וטבעונית",
-      description: "תכנון תפריט צמחוני/טבעוני מאוזן ועשיר בכל אבות המזון"
+      description: "תכנון תפריט צמחוני/טבעוני מאוזן ועשיר בכל אבות המזון",
+      slug: "vegetarian-vegan"
     }
   ];
 
@@ -61,12 +66,30 @@ const Benefits = () => {
           viewport={{ once: true }}
         >
           {services.map((service, index) => (
-            <Card
-              key={index}
-              Icon={service.Icon}  // Note the capital I
-              title={service.title}
-              description={service.description}
-            />
+            <Link 
+              key={index} 
+              href={`/services?service=${service.slug}`}
+              className="block"
+            >
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+                }}
+                whileHover={{ 
+                  scale: 1.05,
+                  transition: { duration: 0.2 }
+                }}
+                whileTap={{ scale: 0.95 }}
+                className="h-full"
+              >
+                <Card
+                  Icon={service.Icon}
+                  title={service.title}
+                  description={service.description}
+                />
+              </motion.div>
+            </Link>
           ))}
         </motion.div>
       </div>
