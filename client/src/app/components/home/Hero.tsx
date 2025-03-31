@@ -7,20 +7,20 @@ import yafitImage from '../../../../public/assets/Yafit.png';
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-orange-50 to-white" dir="rtl">
+    <section className="relative min-h-screen flex items-center bg-gradient-to-br from-orange-50 to-white" dir="rtl">
       {/* Decorative Elements */}
       <div className="absolute top-20 left-20 w-32 h-32 bg-teal-100 rounded-full blur-3xl opacity-20"></div>
       <div className="absolute bottom-20 right-20 w-32 h-32 bg-teal-100 rounded-full blur-3xl opacity-20"></div>
       
       {/* Main Content */}
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 min-h-screen items-center gap-8 lg:gap-16">
+        <div className="grid lg:grid-cols-2 items-center gap-12 lg:gap-16">
           {/* Text Content */}
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="space-y-8 lg:pr-8 pt-20 lg:pt-0"
+            className="space-y-8 lg:pr-8"
           >
             <motion.h1
               initial={{ opacity: 0 }}
@@ -77,15 +77,17 @@ const Hero = () => {
             transition={{ duration: 0.8 }}
             className="relative order-first lg:order-last"
           >
-            <div className="relative h-full min-h-[400px] lg:min-h-[600px] overflow-hidden rounded-3xl">
+            <div className="relative h-[500px] lg:h-[600px] rounded-3xl overflow-hidden shadow-lg">
               {/* Background gradient for image enhancement */}
-              <div className="absolute inset-0 bg-gradient-to-b from-teal-50/50 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-b from-teal-50/50 to-transparent z-10"></div>
               
               {/* Main Image */}
               <Image
                 src={yafitImage}
                 alt="יפית קרופניק - דיאטנית קלינית" 
-                className="absolute inset-0 w-full h-full object-cover"
+                fill
+                className="object-cover"
+                priority
               />
             </div>
           </motion.div>

@@ -48,7 +48,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="z-10">
+          <Link href="/" className="z-50">
             <div className={`font-bold text-xl ${isScrolled ? 'text-teal-600' : 'text-teal-600'}`}>
               יפית קרופניק
             </div>
@@ -57,8 +57,8 @@ const Navbar = () => {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1 space-x-reverse">
+          {/* Desktop Navigation (1024px and above) */}
+          <nav className="hidden lg:flex items-center space-x-1 space-x-reverse">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
@@ -75,7 +75,7 @@ const Navbar = () => {
           </nav>
 
           {/* CTA Button (Desktop) */}
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <Link
               href="tel:+972501234567"
               className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
@@ -89,9 +89,9 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button (Below 1024px) */}
           <button
-            className="md:hidden z-10 p-2"
+            className="lg:hidden z-50 p-2"
             onClick={toggleMobileMenu}
             aria-label="Toggle menu"
           >
@@ -102,11 +102,11 @@ const Navbar = () => {
             )}
           </button>
 
-          {/* Mobile Menu */}
+          {/* Mobile Menu (Below 1024px) */}
           <div
-            className={`fixed inset-0 bg-white z-0 transform transition-transform duration-300 ease-in-out ${
+            className={`fixed inset-0 bg-white z-40 transform transition-transform duration-300 ease-in-out ${
               isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-            } md:hidden`}
+            } lg:hidden`}
           >
             <div className="flex flex-col h-full justify-center items-center space-y-8 pt-16">
               {navLinks.map((link) => (
