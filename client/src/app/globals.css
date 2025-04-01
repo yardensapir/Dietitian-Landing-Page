@@ -75,3 +75,45 @@ main {
     max-width: 1280px;
   }
 }
+
+
+/* Admin Section */
+
+
+/* Admin layout specific styles */
+body.admin-page header.site-header,
+body.admin-page nav.site-nav,
+body.admin-page .main-navbar {
+  /* Hide the site's main navigation when in admin pages */
+  display: none !important;
+}
+
+/* Make sure admin pages don't have any unnecessary padding from main layout */
+body.admin-page {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Ensure the admin layout takes full viewport height */
+.admin-layout {
+  min-height: 100vh;
+  display: flex;
+}
+
+/* Fix for the blog post editor page layout */
+.blog-editor-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.blog-editor-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Make text editor take full width in the blog editor */
+.blog-editor-content {
+  width: 100%;
+}

@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import { ReactNode } from "react";
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
+import ClientSideLayoutCheck from "./components/ClientSideLayoutCheck/ClientSideLayoutCheck";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,9 +18,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="he" dir="rtl">
       <body className={inter.className}>
-        <Navbar />
-        {children}
-        <Footer />
+        <ClientSideLayoutCheck>
+          {children}
+        </ClientSideLayoutCheck>
       </body>
     </html>
   );
