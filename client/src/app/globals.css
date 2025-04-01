@@ -1,5 +1,5 @@
 @import "tailwindcss";
-/* Custom Font Import for Hebrew */
+
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 
@@ -29,29 +29,29 @@ body {
   height: 100%;
 }
 
-/* RTL specific adjustments */
+
 [dir="rtl"] {
   font-family: 'Heebo', sans-serif;
 }
 
-/* Remove default focus outline and add custom one */
+
 *:focus-visible {
   outline: 2px solid #0D9488;
   outline-offset: 2px;
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
+
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
+
 .hide-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;  
+  scrollbar-width: none;  
 }
 
-/* Animations */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -65,12 +65,11 @@ body {
   animation: fadeIn 0.5s ease-in-out;
 }
 
-/* Add some spacing to the content areas to account for fixed navbar */
+
 main {
   padding-top: 60px;
 }
 
-/* Custom container widths */
 @media (min-width: 1536px) {
   .container {
     max-width: 1280px;
