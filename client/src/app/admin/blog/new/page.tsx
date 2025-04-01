@@ -3,18 +3,12 @@ import React, { useState } from 'react';
 import { 
   Save, 
   Image as ImageIcon, 
-  Bold, 
-  Italic, 
-  Link as LinkIcon, 
-  List, 
-  ListOrdered,
-  AlignLeft,
-  AlignCenter,
-  AlignRight,
-  X,
-  ArrowLeft
+  ArrowLeft,
+  X
 } from 'lucide-react';
 import Link from 'next/link';
+import RichTextEditor from '@/app/components/RichTextEditor/RichTextEditor';
+
 
 const NewBlogPostPage = () => {
   const [postData, setPostData] = useState({
@@ -35,6 +29,13 @@ const NewBlogPostPage = () => {
     setPostData({
       ...postData,
       [name]: value
+    });
+  };
+
+  const handleContentChange = (html: string) => {
+    setPostData({
+      ...postData,
+      content: html
     });
   };
 
@@ -95,36 +96,6 @@ const NewBlogPostPage = () => {
       setIsSaving(false);
     }
   };
-  
-  // Simple text formatting toolbar component
-  const EditorToolbar = () => (
-    <div className="flex flex-wrap gap-1 p-2 border-b">
-      <button type="button" className="p-2 hover:bg-gray-100 rounded" title="מודגש">
-        <Bold className="w-4 h-4" />
-      </button>
-      <button type="button" className="p-2 hover:bg-gray-100 rounded" title="נטוי">
-        <Italic className="w-4 h-4" />
-      </button>
-      <button type="button" className="p-2 hover:bg-gray-100 rounded" title="קישור">
-        <LinkIcon className="w-4 h-4" />
-      </button>
-      <button type="button" className="p-2 hover:bg-gray-100 rounded" title="רשימה">
-        <List className="w-4 h-4" />
-      </button>
-      <button type="button" className="p-2 hover:bg-gray-100 rounded" title="רשימה ממוספרת">
-        <ListOrdered className="w-4 h-4" />
-      </button>
-      <button type="button" className="p-2 hover:bg-gray-100 rounded" title="יישור לימין">
-        <AlignRight className="w-4 h-4" />
-      </button>
-      <button type="button" className="p-2 hover:bg-gray-100 rounded" title="יישור למרכז">
-        <AlignCenter className="w-4 h-4" />
-      </button>
-      <button type="button" className="p-2 hover:bg-gray-100 rounded" title="יישור לשמאל">
-        <AlignLeft className="w-4 h-4" />
-      </button>
-    </div>
-  );
 
   return (
     <div className="space-y-6 py-6">
@@ -210,21 +181,12 @@ const NewBlogPostPage = () => {
               <label htmlFor="content" className="block text-gray-700 mb-2 font-medium">
                 תוכן
               </label>
-              <div className="border border-gray-300 rounded-lg overflow-hidden focus-within:border-teal-600 focus-within:ring-2 focus-within:ring-teal-100 transition-all">
-                <EditorToolbar />
-                <textarea
-                  id="content"
-                  name="content"
-                  value={postData.content}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border-0 focus:ring-0 outline-none"
-                  placeholder="הזינו את תוכן הפוסט כאן..."
-                  rows={15}
-                  required
-                />
-              </div>
+              <RichTextEditor 
+                value={postData.content} 
+                onChange={handleContentChange} 
+              />
               <p className="text-xs text-gray-500 mt-1">
-                עורך טקסט בסיסי. לחיצה על הכפתורים למעלה תוסיף תגיות HTML לטקסט.
+                ניתן להשתמש בכפתורי העריכה להוספת עיצוב, קישורים ותמונות.
               </p>
             </div>
           </div>

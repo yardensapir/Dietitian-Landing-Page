@@ -117,3 +117,34 @@ body.admin-page {
 .blog-editor-content {
   width: 100%;
 }
+
+
+
+/* In your global.css */
+.ProseMirror {
+  min-height: 300px;
+  outline: none;
+  padding: 12px;
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+}
+
+.ProseMirror p {
+  margin-bottom: 0.75em;
+}
+
+.ProseMirror a {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+[dir="rtl"] .ProseMirror {
+  text-align: right;
+}
+
+/* Additional styles for better editing experience */
+.ProseMirror:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
+}
