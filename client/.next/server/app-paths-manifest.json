@@ -1,4 +1,11 @@
 {
   "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/blog/page": "app/blog/page.js"
+  "/blog/[slug]/page": "app/blog/[slug]/page.js",
+  "/page": "app/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/admin/blog/[id]/page": "app/admin/blog/[id]/page.js",
+  "/admin/blog/new/page": "app/admin/blog/new/page.js",
+  "/admin/(auth)/login/page": "app/admin/(auth)/login/page.js",
+  "/admin/blog/posts/page": "app/admin/blog/posts/page.js",
+  "/admin/(dashboard)/dashboard/page": "app/admin/(dashboard)/dashboard/page.js"
 }

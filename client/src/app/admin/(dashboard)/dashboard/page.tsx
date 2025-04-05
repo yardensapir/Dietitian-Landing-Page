@@ -11,6 +11,8 @@ import {
   Search,
 } from "lucide-react";
 import Link from "next/link";
+import { formatDate } from "@/app/lib/blog-api";
+
 
 const DashboardPage = () => {
   // This would come from your database in a real app
@@ -43,21 +45,21 @@ const DashboardPage = () => {
       id: 2,
       title: "5 שגיאות נפוצות בתזונה ספורטיבית",
       status: "פורסם",
-      publishedDate: "25/02/2023",
+      publishedDate: "2023-02-20",
       views: 98,
     },
     {
       id: 3,
       title: "היתרונות הבריאותיים של דיאטה ים תיכונית",
       status: "טיוטה",
-      publishedDate: "-",
+      publishedDate: "2023-01-15",
       views: 0,
     },
     {
       id: 4,
       title: "איך להתמודד עם התקפי אכילה רגשית",
       status: "טיוטה",
-      publishedDate: "-",
+      publishedDate: "2023-01-10",
       views: 0,
     },
   ];
@@ -143,7 +145,7 @@ const DashboardPage = () => {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {post.publishedDate}
+                    {formatDate(post.publishedDate)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {post.views}

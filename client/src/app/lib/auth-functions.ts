@@ -1,18 +1,18 @@
 import supabase from './supabase';
 
 // Sign up a new user (you might want to disable this in production)
-export async function signUp(email: string, password: string) {
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-  });
+// export async function signUp(email: string, password: string) {
+//   const { data, error } = await supabase.auth.signUp({
+//     email,
+//     password,
+//   });
 
-  if (error) {
-    throw error;
-  }
+//   if (error) {
+//     throw error;
+//   }
 
-  return data;
-}
+//   return data;
+// }
 
 // Sign in an existing user
 export async function signIn(email: string, password: string) {

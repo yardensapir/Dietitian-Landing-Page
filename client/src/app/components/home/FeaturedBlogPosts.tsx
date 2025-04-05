@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowLeft, Clock } from 'lucide-react';
-import { getFeaturedBlogPosts } from '@/app/lib/blog-api';
+import { formatDate, getFeaturedBlogPosts } from '@/app/lib/blog-api';
 import { BlogPost } from '@/app/types/blog';
 
 const FeaturedBlogPosts = () => {
@@ -106,7 +106,7 @@ const FeaturedBlogPosts = () => {
                   
                   <div className="p-6">
                     <div className="flex items-center text-sm text-gray-500 mb-3">
-                      <span>{post.date}</span>
+                      <span>{formatDate(post.date)}</span>
                       <span className="mx-2">•</span>
                       <span className="flex items-center">
                         <Clock className="w-4 h-4 mr-1" />
