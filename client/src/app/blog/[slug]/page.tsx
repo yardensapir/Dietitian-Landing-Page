@@ -1,41 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation'; // ✅ Import useParams
+import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Clock, ArrowLeft } from 'lucide-react';
+import { getBlogPostBySlug } from '@/app/lib/blog-api';
+import { BlogPost } from '@/app/types/blog';
 
-// Blog posts data
-const blogPosts = [
-  {
-    id: 1,
-    title: "איך לבנות תפריט שבועי מאוזן לכל המשפחה",
-    content: `תכנון תפריט שבועי הוא כלי חשוב לניהול תזונה משפחתית.`,
-    excerpt: "תכנון תפריט שבועי יכול לחסוך זמן, כסף ולשפר את התזונה.",
-    image: "/assets/blog-1.jpg",
-    date: "12 במרץ, 2023",
-    readTime: "7 דקות קריאה",
-    slug: "weekly-meal-plan",
-    category: "תזונת משפחה",
-    author: "ד״ר יפית קרופניק",
-    authorBio: "דיאטנית קלינית ומומחית לתזונת משפחה"
-  },
-  {
-    id: 2,
-    title: "5 שגיאות נפוצות בתזונה ספורטיבית ואיך להימנע מהן",
-    content: "תוכן המאמר על שגיאות בתזונת ספורט",
-    excerpt: "טעויות בתזונה שפוגעות בביצועים. גלו את הטעויות ואיך להימנע מהן.",
-    date: "25 בפברואר, 2023",
-    readTime: "5 דקות קריאה",
-    slug: "sports-nutrition-mistakes",
-    category: "תזונת ספורט",
-    author: " יפית קרופניק",
-    authorBio: "מאמנת כושר ותזונאית ספורט"
-  }
-];
-
-// Component for when the blog post is not found
 const BlogPostNotFound = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center text-center p-4" dir="rtl">
@@ -54,18 +26,44 @@ const BlogPostNotFound = () => {
   );
 };
 
+// Loading component
+const Loading = () => {
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center text-center p-4" dir="rtl">
+      <p>טוען את המאמר...</p>
+    </div>
+  );
+};
+
 // Blog post page
 const BlogPostPage = () => {
-  const params = useParams(); // ✅ Get the params dynamically
-  const slug = params?.slug as string; // Ensure it's a string
+  const params = useParams();
+  const slug = params?.slug as string;
   
-  if (!slug) {
-    return <BlogPostNotFound />;
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadBlogPost = async () => {
+      if (!slug) {
+        setIsLoading(false);
+        return;
+      }
+
+      setIsLoading(true);
+      const blogPost = await getBlogPostBySlug(slug);
+      setPost(blogPost);
+      setIsLoading(false);
+    };
+
+    loadBlogPost();
+  }, [slug]);
+
+  if (isLoading) {
+    return <Loading />;
   }
 
-  const post = blogPosts.find(p => p.slug === slug);
-
-  if (!post) {
+  if (!slug || !post) {
     return <BlogPostNotFound />;
   }
 
@@ -88,7 +86,7 @@ const BlogPostPage = () => {
               <span className="mx-2">•</span>
               <span className="flex items-center">
                 <Clock className="w-4 h-4 mr-1" />
-                {post.readTime}
+                {post.read_time}
               </span>
               <span className="mx-2">•</span>
               <span>{post.category}</span>
@@ -100,20 +98,28 @@ const BlogPostPage = () => {
           </div>
 
           {/* Blog Image */}
-          <img src={post.image} alt={post.title} className="w-full h-96 object-cover rounded-lg mb-8" />
+          {post.image_url && (
+            <img 
+              src={post.image_url} 
+              alt={post.title} 
+              className="w-full h-96 object-cover rounded-lg mb-8" 
+            />
+          )}
 
           {/* Author Section */}
-          <div className="bg-gray-50 p-6 rounded-lg mb-8 flex items-center">
-            <div className="w-16 h-16 bg-gray-300 rounded-full ml-4"></div>
-            <div>
-              <h4 className="text-xl font-bold text-gray-800">{post.author}</h4>
-              <p className="text-gray-600">{post.authorBio}</p>
+          {(post.author || post.author_bio) && (
+            <div className="bg-gray-50 p-6 rounded-lg mb-8 flex items-center">
+              <div className="w-16 h-16 bg-gray-300 rounded-full ml-4"></div>
+              <div>
+                <h4 className="text-xl font-bold text-gray-800">{post.author}</h4>
+                <p className="text-gray-600">{post.author_bio}</p>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Blog Content */}
           <div className="prose max-w-none">
-            {post.content.split(/\r?\n/).map((paragraph, index) => (
+            {post.content && post.content.split(/\r?\n/).map((paragraph, index) => (
               paragraph.trim() ? (
                 paragraph.startsWith('##') ? (
                   <h2 key={index} className="text-2xl font-bold text-gray-800 mt-8 mb-4">

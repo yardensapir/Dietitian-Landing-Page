@@ -1,62 +1,26 @@
 'use client'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Clock, ArrowLeft } from 'lucide-react';
+import { getAllBlogPosts } from '../lib/blog-api';
+import { BlogPost } from '../types/blog';
 
 const BlogPage = () => {
-  // This would typically come from a database
-  const blogPosts: {
-    id: number;
-    title: string;
-    excerpt: string;
-    image: string;
-    date: string;
-    readTime: string;
-    slug: string;
-    category: string;
-  }[] = [
-    {
-      id: 1,
-      title: "איך לבנות תפריט שבועי מאוזן לכל המשפחה",
-      excerpt: "תכנון תפריט שבועי יכול לחסוך זמן, כסף ולשפר את התזונה. הנה המדריך המלא לתפריט משפחתי מאוזן ובריא.",
-      image: "/assets/blog-1.jpg",
-      date: "12 במרץ, 2023",
-      readTime: "7 דקות קריאה",
-      slug: "weekly-meal-plan",
-      category: "תזונת משפחה"
-    },
-    {
-      id: 2,
-      title: "5 שגיאות נפוצות בתזונה ספורטיבית ואיך להימנע מהן",
-      excerpt: "ספורטאים רבים עושים טעויות בתזונה שפוגעות בביצועים. גלו את הטעויות הנפוצות ביותר ואיך להימנע מהן.",
-      image: "/assets/blog-2.jpg", 
-      date: "25 בפברואר, 2023",
-      readTime: "5 דקות קריאה",
-      slug: "sports-nutrition-mistakes",
-      category: "תזונת ספורט"
-    },
-    {
-      id: 3,
-      title: "היתרונות הבריאותיים של דיאטה ים תיכונית",
-      excerpt: "דיאטה ים תיכונית נחשבת לאחת התזונות הבריאות ביותר. גלו למה ואיך לאמץ אותה בקלות לחיי היומיום.",
-      image: "/assets/blog-3.jpg",
-      date: "3 בינואר, 2023",
-      readTime: "6 דקות קריאה", 
-      slug: "mediterranean-diet-benefits",
-      category: "סגנונות תזונה"
-    },
-    {
-      id: 4,
-      title: "טיפול באכילה רגשית: הדרך להבראה",
-      excerpt: "אכילה רגשית היא יותר מאשר רק הרגל. בואו נחקור את השורשים והדרכים להתמודד עימה.",
-      image: "/assets/blog-4.jpg",
-      date: "15 בנובמבר, 2022", 
-      readTime: "8 דקות קריאה",
-      slug: "emotional-eating-healing",
-      category: "בריאות נפשית"
-    }
-  ];
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadBlogPosts = async () => {
+      setIsLoading(true);
+      const posts = await getAllBlogPosts();
+      console.log(posts)
+      setBlogPosts(posts);
+      setIsLoading(false);
+    };
+
+    loadBlogPosts();
+  }, []);
 
   const container = {
     hidden: {},
@@ -69,6 +33,16 @@ const BlogPage = () => {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
   };
+
+  if (isLoading) {
+    return (
+      <section className="pt-32 pb-20 bg-white" dir="rtl">
+        <div className="container mx-auto px-4 text-center">
+          <p>טוען מאמרים...</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="pt-32 pb-20 bg-white" dir="rtl">
@@ -102,9 +76,18 @@ const BlogPage = () => {
                   <div className="relative h-52 w-full overflow-hidden">
                     <div className="absolute inset-0 bg-teal-900/10 group-hover:bg-teal-900/20 transition-colors z-10"></div>
                     <div className="absolute inset-0 bg-gray-200">
-                      <div className="w-full h-full flex items-center justify-center text-gray-400">
-                        תמונת בלוג
-                      </div>
+                      {post.image_url && (
+                        <img 
+                          src={post.image_url} 
+                          alt={post.title}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
+                      {!post.image_url && (
+                        <div className="w-full h-full flex items-center justify-center text-gray-400">
+                          תמונת בלוג
+                        </div>
+                      )}
                     </div>
                   </div>
                   
@@ -114,7 +97,7 @@ const BlogPage = () => {
                       <span className="mx-2">•</span>
                       <span className="flex items-center">
                         <Clock className="w-4 h-4 mr-1" />
-                        {post.readTime}
+                        {post.read_time}
                       </span>
                     </div>
                     

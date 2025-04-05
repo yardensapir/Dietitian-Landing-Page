@@ -1,41 +1,25 @@
 'use client'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, Clock } from 'lucide-react';
+import { getFeaturedBlogPosts } from '@/app/lib/blog-api';
+import { BlogPost } from '@/app/types/blog';
 
 const FeaturedBlogPosts = () => {
-  // This data would come from your PostgreSQL database in production
-  const featuredPosts = [
-    {
-      id: 1,
-      title: "איך לבנות תפריט שבועי מאוזן לכל המשפחה",
-      excerpt: "תכנון תפריט שבועי יכול לחסוך זמן, כסף ולשפר את התזונה. הנה המדריך המלא לתפריט משפחתי מאוזן ובריא.",
-      image: "/assets/blog-1.jpg",
-      date: "12 במרץ, 2023",
-      readTime: "7 דקות קריאה",
-      slug: "weekly-meal-plan"
-    },
-    {
-      id: 2,
-      title: "5 שגיאות נפוצות בתזונה ספורטיבית ואיך להימנע מהן",
-      excerpt: "ספורטאים רבים עושים טעויות בתזונה שפוגעות בביצועים. גלו את הטעויות הנפוצות ביותר ואיך להימנע מהן.",
-      image: "/assets/blog-2.jpg",
-      date: "25 בפברואר, 2023",
-      readTime: "5 דקות קריאה",
-      slug: "sports-nutrition-mistakes"
-    },
-    {
-      id: 3,
-      title: "היתרונות הבריאותיים של דיאטה ים תיכונית",
-      excerpt: "דיאטה ים תיכונית נחשבת לאחת התזונות הבריאות ביותר. גלו למה ואיך לאמץ אותה בקלות לחיי היומיום.",
-      image: "/assets/blog-3.jpg",
-      date: "3 בינואר, 2023",
-      readTime: "6 דקות קריאה",
-      slug: "mediterranean-diet-benefits"
-    }
-  ];
+  const [featuredPosts, setFeaturedPosts] = useState<BlogPost[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadFeaturedPosts = async () => {
+      setIsLoading(true);
+      const posts = await getFeaturedBlogPosts();
+      setFeaturedPosts(posts);
+      setIsLoading(false);
+    };
+
+    loadFeaturedPosts();
+  }, []);
 
   const container = {
     hidden: {},
@@ -48,6 +32,16 @@ const FeaturedBlogPosts = () => {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
   };
+
+  if (isLoading) {
+    return (
+      <section className="py-20 bg-orange-50" dir="rtl">
+        <div className="container mx-auto px-4 text-center">
+          <p>טוען מאמרים...</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-20 bg-orange-50" dir="rtl">
@@ -95,10 +89,18 @@ const FeaturedBlogPosts = () => {
                   <div className="relative h-52 w-full overflow-hidden">
                     <div className="absolute inset-0 bg-teal-900/10 group-hover:bg-teal-900/20 transition-colors z-10"></div>
                     <div className="absolute inset-0 bg-gray-200">
-                      {/* Placeholder for actual images */}
-                      <div className="w-full h-full flex items-center justify-center text-gray-400">
-                        תמונת בלוג
-                      </div>
+                      {post.image_url && (
+                        <img 
+                          src={post.image_url} 
+                          alt={post.title}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
+                      {!post.image_url && (
+                        <div className="w-full h-full flex items-center justify-center text-gray-400">
+                          תמונת בלוג
+                        </div>
+                      )}
                     </div>
                   </div>
                   
@@ -108,7 +110,7 @@ const FeaturedBlogPosts = () => {
                       <span className="mx-2">•</span>
                       <span className="flex items-center">
                         <Clock className="w-4 h-4 mr-1" />
-                        {post.readTime}
+                        {post.read_time}
                       </span>
                     </div>
                     
